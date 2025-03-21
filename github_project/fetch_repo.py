@@ -1,12 +1,12 @@
 import requests
-import json
+import os
 
 GITHUB_API_URL = "https://api.github.com/repos"
-GITHUB_TOKEN = "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"
+MY_GITHUB_TOKEN = os.getenv("MY_GITHUB_TOKEN")
 
 def get_repo_details(repo_url):
     repo_owner, repo_name = repo_url.rstrip('/').split('/')[-2:]
-    headers = {"Authorization": f"token {GITHUB_TOKEN}"}
+    headers = {"Authorization": f"token {MY_GITHUB_TOKEN}"}
     
     # Fetch repo metadata
     repo_response = requests.get(f"{GITHUB_API_URL}/{repo_owner}/{repo_name}", headers=headers)
@@ -31,5 +31,5 @@ def get_repo_details(repo_url):
 
 # Example usage
 if __name__ == "__main__":
-    repo_url = "https://github.com/ramitsurana/awesome-kubernetes"
+    repo_url = "https://github.com/DPmalaviya/working_code"
     print(get_repo_details(repo_url))
