@@ -1,77 +1,68 @@
-# dev-resources
+# awesome-appsec
 
-A collaborative list of resources for developers.  Contribute and share your favorite tools, libraries, courses, and more!  This project welcomes contributions from everyone, especially for Hacktoberfest!
+A curated list of resources for learning about application security.
+
+**Main Language:** PHP (While the list itself is language-agnostic, the example scripts/tools might be in PHP)
+
+**Technologies Used:** application-security, curated, OWASP, reading-list, security, security-experts
+
 
 ## Introduction
 
-`dev-resources` is a curated collection of helpful resources for developers of all levels.  We aim to provide a single, easily searchable repository for finding valuable tools, libraries, courses, and other information to improve your development workflow.  This project is built using TypeScript and follows best practices for maintainability and collaboration.
+This repository serves as a comprehensive collection of resources to help you learn about application security. Whether you're a beginner or an experienced developer, you'll find valuable materials here to enhance your knowledge and skills in securing applications. The resources are categorized for easy navigation and cover a wide range of topics, including OWASP Top 10 vulnerabilities, secure coding practices, and various security testing methodologies.
 
-## Installation
 
-1. **Clone the repository:**
+## Installation Guide
 
-   ```bash
-   git clone https://github.com/<YOUR_GITHUB_USERNAME>/dev-resources.git
-   ```
+This repository doesn't require installation in the traditional sense.  It's a curated list, so you simply need to clone the repository to your local machine to access the resources:
 
-2. **Navigate to the project directory:**
+```bash
+git clone https://github.com/<your-github-username>/awesome-appsec.git
+```
 
-   ```bash
-   cd dev-resources
-   ```
+Then navigate to the cloned directory:
 
-3. **Install dependencies:**
+```bash
+cd awesome-appsec
+```
 
-   ```bash
-   npm install
-   ```  or  ```bash
-   yarn install
-   ```
+You can then browse the resources directly in the `resources` directory (or however you organize your resources).  Some resources may require further installation or setup, as indicated in their respective descriptions.
 
-## Usage
 
-This repository is primarily a static collection of resources.  The main content is organized within the `API.md` file and other markdown files. You can browse the contents directly on GitHub or clone the repository to view it locally.  The TypeScript codebase may be used to generate or process this information in future updates.
+## Usage Instructions
+
+The resources are organized into categories (you'll need to create these categories within the repository).  You can browse the categories and select resources relevant to your learning goals.  Each resource entry should include a brief description, a link to the resource, and any relevant notes.
+
+For example, a category might be "OWASP Top 10," containing links to articles, tutorials, and tools related to each of the top 10 vulnerabilities.  Another category might be "Secure Coding Practices," with resources on topics like input validation, authentication, and authorization.
+
+Feel free to contribute your own resources to expand the list!  See the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines.
+
 
 ## Features
 
-* **Organized by Category:** Resources are categorized for easy navigation and discovery.
-* **Curated Content:**  The list is regularly reviewed to ensure quality and relevance.
-* **Community Driven:** Contributions are welcome from the entire developer community.
-* **Hacktoberfest Friendly:**  This project is actively participating in Hacktoberfest, making it a great opportunity to contribute to open source.
-* **TypeScript Implementation:**  The project utilizes TypeScript for type safety and maintainability.
+* **Curated Collection:**  A carefully selected list of high-quality resources.
+* **Categorized Organization:** Easy to navigate and find relevant information.
+* **Regular Updates:** The list will be regularly updated with new and relevant resources.
+* **Community Driven:** Contributions from the community are welcome.
+* **Beginner-Friendly:**  Includes resources suitable for beginners.
+* **Advanced Topics:** Covers advanced concepts for experienced developers.
 
 
 ## Contributing
 
-We encourage contributions! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on how to submit pull requests.  Before submitting a pull request, please ensure that you have followed the guidelines in the [PULL_REQUEST_TEMPLATE.md](PULL_REQUEST_TEMPLATE.md) file.
+We welcome contributions! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for details on how to contribute to this project.
 
-## Code of Conduct
-
-Please review our [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for guidelines on how to interact with the community.
 
 ## License
 
-This project is licensed under the [LICENSE](LICENSE) - see the LICENSE file for details.
-
-
-## Key Files
-
-* **`.eslintrc.js`:** ESLint configuration file.
-* **`.gitignore`:**  Specifies files and directories to ignore in Git.
-* **`.lycheeignore`:**  Specifies files and directories to ignore in Lychee (if used).
-* **`.prettierignore`:** Specifies files and directories to ignore in Prettier.
-* **`.prettierrc`:** Prettier configuration file.
-* **`API.md`:**  Main documentation file containing the list of developer resources.
-* **`CODE_OF_CONDUCT.md`:**  Code of Conduct for the project.
-* **`CONTRIBUTING.md`:** Guidelines for contributing to the project.
-* **`LICENSE`:**  Project license.
-* **`PULL_REQUEST_TEMPLATE.md`:** Template for pull requests.
-* **`README.md`:** This file.
-* **`package-lock.json`:**  npm package lock file.
-* **`package.json`:**  npm package file.
-* **`tsconfig.json`:** TypeScript configuration file.
+This project is licensed under the [LICENSE](LICENSE)
 
 
 ## Contact
 
-For any questions or concerns, please open an issue on this repository.
+If you have any questions or suggestions, please feel free to open an issue or contact the maintainers.
+
+
+## Disclaimer
+
+The resources provided in this repository are for educational purposes only.  The maintainers are not responsible for any misuse of the information provided.  Always practice safe and ethical security research.
