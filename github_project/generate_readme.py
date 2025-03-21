@@ -1,9 +1,10 @@
+from dotenv import load_dotenv
 import os
 import google.generativeai as genai
 
+load_dotenv()
 # Configure the Gemini API
-GEMINI_API_KEY = "AIzaSyC0aBFKGga0G67CbgkgVUrpUU7rVP8ZmZs"
-genai.configure(api_key=GEMINI_API_KEY)
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
 def generate_readme_with_gemini(repo_details):
     # Create a prompt for the README generation
