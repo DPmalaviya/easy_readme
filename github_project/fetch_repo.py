@@ -102,8 +102,8 @@ def save_repo_details_to_json(repo_details, output_path="repo_details.json"):
         print(f"An error occurred while saving the repository details to JSON: {e}")
 
 if __name__ == "__main__":
-    repo_url = "https://github.com/ramitsurana/deeplearning-notebooks"
+    repo_url = "https://github.com/Avadh-Ladani-0/LeetCode_Practice"
     repo_details = get_repo_details(repo_url)
     code_summaries = summarize_code(repo_details["file_contents"])
     repo_details["code_summaries"] = code_summaries # Add code summaries to the repo details
-    # save_repo_details_to_json(repo_details)
+    save_repo_details_to_json(repo_details)
