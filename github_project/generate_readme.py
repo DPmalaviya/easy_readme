@@ -37,7 +37,7 @@ def generate_readme_with_gemini(repo_details):
     return response.text
 
 
-def save_readme_to_file(content, output_path="README.md"):
+def save_readme_to_file(content, output_path="github_project/README.md"):
     try:
         with open(output_path, "w") as readme_file:
             readme_file.write(content)
