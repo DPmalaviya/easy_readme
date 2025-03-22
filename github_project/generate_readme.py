@@ -13,17 +13,18 @@ def generate_readme_with_gemini(repo_details):
     Main Language: {repo_details['language']}
     Technologies Used: {', '.join(repo_details['topics'])}
     Key Files: {', '.join(repo_details['files'])}
+    Example File Contents: {repo_details['file_contents']}
 
-    The README should include an Introduction, Installation Guide, Usage Instructions, and Features.
+    Maximize your creativity and provide a detailed, informative, and engaging README that includes sections like:
     """
 
     generation_config = {
-        "temperature": 0.7,
-        "top_p": 0.9,
-        "top_k": 50,
-        "max_output_tokens": 1024,
+        "temperature": 1,
+        "top_p": 0.95,
+        "top_k": 40,
+        "max_output_tokens": 8192,
         "response_mime_type": "text/plain",
-    }
+        }
 
     model = genai.GenerativeModel(
         model_name="gemini-1.5-flash",
@@ -47,5 +48,8 @@ def save_readme_to_file(content, output_path="README.md"):
 if __name__ == "__main__":
     link = input("Enter the GitHub repository URL: ")
     sample_repo = get_repo_details(link)
+    if not sample_repo:
+        print("Failed to fetch repository details.")
+        exit(1)
     readme_content = generate_readme_with_gemini(sample_repo)
     save_readme_to_file(readme_content)
