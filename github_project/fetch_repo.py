@@ -1,97 +1,67 @@
 import requests
 import os
-import json  # Import the JSON module
+import json  
+import re
 
 GITHUB_API_URL = "https://api.github.com/repos"
-MY_GITHUB_TOKEN = os.getenv("MY_GITHUB_TOKEN")
+GITHUB_TOKEN = os.getenv("MY_GITHUB_TOKEN")
+
+def get_repo_contents(owner, repo, path=""):
+    """Recursively fetch all files in a GitHub repo, including subfolders."""
+    headers = {"Authorization": f"token {GITHUB_TOKEN}"}
+    url = f"{GITHUB_API_URL}/{owner}/{repo}/contents/{path}"
+    
+    response = requests.get(url, headers=headers)
+    if response.status_code != 200:
+        return []
+
+    contents = response.json()
+    all_files = []
+
+    for item in contents:
+        if item["type"] == "file" and item["name"].endswith(".py"):
+            file_data = fetch_python_file(owner, repo, item["path"])  # Read Python file
+            all_files.append({"path": item["path"], "content": file_data})
+        elif item["type"] == "dir":
+            all_files.extend(get_repo_contents(owner, repo, item["path"]))  # Recursive call
+
+    return all_files
+
+def fetch_python_file(owner, repo, file_path):
+    """Fetch and extract function definitions and comments from a Python file."""
+    headers = {"Authorization": f"token {GITHUB_TOKEN}"}
+    url = f"{GITHUB_API_URL}/{owner}/{repo}/contents/{file_path}"
+    
+    response = requests.get(url, headers=headers)
+    if response.status_code != 200:
+        return ""
+
+    file_content = response.json().get("content", "")
+    return extract_definitions_and_comments(file_content)
+
+def extract_definitions_and_comments(content):
+    """Extract function definitions and comments from Python file content."""
+    import base64
+    decoded_content = base64.b64decode(content).decode("utf-8", errors="ignore")
+
+    functions = re.findall(r"def (\w+)\(.*?\):", decoded_content)  # Extract function names
+    comments = re.findall(r"# (.+)", decoded_content)  # Extract inline comments
+    
+    summary = {
+        "functions": functions,
+        "comments": comments[:10]  # Limit to avoid too much text
+    }
+    
+    return summary
 
 def get_repo_details(repo_url):
-    repo_owner, repo_name = repo_url.rstrip('/').split('/')[-2:]
-    headers = {"Authorization": f"token {MY_GITHUB_TOKEN}"}
+    """Extract owner and repo name from URL and fetch all Python file summaries."""
+    owner, repo = repo_url.rstrip('/').split('/')[-2:]
+    files = get_repo_contents(owner, repo)
     
-    repo_response = requests.get(f"{GITHUB_API_URL}/{repo_owner}/{repo_name}", headers=headers)
-    repo_data = repo_response.json()
-    
-    if repo_response.status_code != 200:
-        return {"error": repo_data.get("message", "Failed to fetch repo details")}
-
-    contents_response = requests.get(f"{GITHUB_API_URL}/{repo_owner}/{repo_name}/contents", headers=headers)
-    contents = contents_response.json()
-
-    file_list = []
-    file_contents = {}
-
-    for file in contents:
-        if "type" in file and file["type"] == "file":
-            file_list.append(file["name"])
-            
-            # Fetch file content
-            file_content_response = requests.get(file["download_url"], headers=headers)
-            if file_content_response.status_code == 200:
-                file_contents[file["name"]] = file_content_response.text
-    return {
-        "name": repo_data["name"],
-        "description": repo_data["description"],
-        "language": repo_data["language"],
-        "topics": repo_data.get("topics", []),
-        "files": file_list,
-        "file_contents": file_contents 
-    }
+    return {"name": repo, "owner": owner, "files": files}
 
 
-def summarize_code(file_contents):
-    """
-    Summarize the code content from the repository.
-
-    Args:
-        file_contents (dict): A dictionary where keys are file names and values are the file contents.
-
-    Returns:
-        dict: A dictionary where keys are file names and values are the summarized content.
-    """
-    summaries = {}
-
-    for file_name, content in file_contents.items():
-        lines = content.splitlines()
-        summary = []
-        in_docstring = False
-        docstring_lines = []
-
-        for line in lines:
-            line = line.strip()
-
-            # Capture module-level comments
-            if line.startswith("#") and not summary:
-                summary.append(line)
-
-            # Capture function definitions
-            elif line.startswith("def "):
-                summary.append(line)
-                in_docstring = False  # Reset docstring flag
-
-            # Capture class definitions
-            elif line.startswith("class "):
-                summary.append(line)
-                in_docstring = False  # Reset docstring flag
-
-            # Capture docstrings (single-line or multi-line)
-            elif line.startswith('"""') or line.startswith("'''"):
-                if not in_docstring:
-                    in_docstring = True
-                    docstring_lines = [line]
-                else:
-                    in_docstring = False
-                    docstring_lines.append(line)
-                    summary.append(" ".join(docstring_lines))  # Add the full docstring
-                    docstring_lines = []
-
-            # Continue capturing multi-line docstrings
-            elif in_docstring:
-                docstring_lines.append(line)
-
-        # Limit the summary to the first 15 lines for brevity
-        summaries[file_name] = "\n".join(summary[:15])
-    return summaries
 
 def save_repo_details_to_json(repo_details, output_path="repo_details.json"):
     try:
@@ -105,6 +75,4 @@ if __name__ == "__main__":
     repo_url = "https://github.com/Avadh-Ladani-0/LeetCode_Practice"
     repo_details = get_repo_details(repo_url)
     print(repo_details)
-    # code_summaries = summarize_code(repo_details["file_contents"])
-    # repo_details["code_summaries"] = code_summaries # Add code summaries to the repo details
     # save_repo_details_to_json(repo_details)

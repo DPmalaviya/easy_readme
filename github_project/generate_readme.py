@@ -5,16 +5,14 @@ from fetch_repo import get_repo_details
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 def generate_readme_with_gemini(repo_details):
+
     prompt = f"""
     Generate a structured README.md for a GitHub repository. remove "markdown" and "code" tags from the output.
     The README should be informative, engaging, and tailored to the following repository details:
 
     Project Name: {repo_details['name']}
-    Description: {repo_details['description']}
-    Main Language: {repo_details['language']}
-    Technologies Used: {', '.join(repo_details['topics'])}
-    Key Files: {', '.join(repo_details['files'])}
-    Example File Contents: {repo_details['file_contents']}
+    Owner: {repo_details['owner']}
+    Key Files: {repo_details['files']}
 
     Maximize your creativity and provide a detailed, informative, and engaging README that includes sections like:
     """
